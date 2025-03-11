@@ -24,10 +24,16 @@ class UserController extends Controller
         
         //$user = UserModel::where('username', 'manager_tiga')->first();    // ambil data dari tabel m_user dengan username manager_tiga
         
-        $user = UserModel::findOr(20, ['username', 'nama'], function () {
+        /*$user = UserModel::findOr(20, ['username', 'nama'], function () {
             abort(404);
-        });
-        return view('user', ['data' => $user]);
+        });*/
+
+        //$user = UserModel::findOrFail(1); // ambil data dari tabel m_user dengan id 1
+
+        //$user = UserModel::where('username', 'manager9')->firstOrFail();
+        
+        $jumlahPengguna = UserModel::where('level_id', 2)->count();
+        return view('user', ['jumlahPengguna' => $jumlahPengguna]);
 
     }
 }
