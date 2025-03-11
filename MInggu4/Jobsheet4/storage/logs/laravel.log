@@ -5122,3 +5122,7 @@ Stack trace:
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
 "} 
+[2025-03-11 08:08:54] local.ERROR: syntax error, unexpected token "}", expecting variable {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting variable at C:\\laragon\\www\\PWL_2025\\Minggu4\\Jobsheet4\\app\\Models\\UserModel.php:19)
+[stacktrace]
+#0 {main}
+"} 
