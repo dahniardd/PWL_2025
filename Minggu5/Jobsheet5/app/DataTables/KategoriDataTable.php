@@ -23,8 +23,12 @@
              // ->addColumn('action', 'kategori.action')
              ->addColumn('action', function($id){
                 $edit = route('kategori.edit', $id);
-                return '<a href="'.$edit.'" class="btn btn-primary btn-sm">Edit</a>';
-            })
+                     $delete = route('kategori.delete', $id);
+                     return '
+                         <a href="'.$edit.'" class="btn btn-primary btn-sm">Edit</a>
+                         <a href="'.$delete.'" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin ingin menghapus kategori ini?\')">Delete</a>
+                     ';
+                 })
              ->setRowId('id');
      }
  
@@ -64,11 +68,6 @@
      public function getColumns(): array
      {
          return [
-             // Column::computed('action')
-             //     ->exportable(false)
-             //     ->printable(false)
-             //     ->width(60)
-             //     ->addClass('text-center'),
              Column::make('kategori_id'),
              Column::make('kategori_kode'),
              Column::make('kategori_nama'),
@@ -76,10 +75,10 @@
              Column::make('updated_at'),
 
              Column::computed('action')
-             ->exportable(false)
-             ->printable(false)
-             ->width(100)
-             ->addClass('text-center'),
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(150)
+                    ->addClass('text-center'),
          ];
      }
  
