@@ -29,10 +29,10 @@ class UserModel extends Authenticatable
       /**
        * Mendapatkan nama role
        */
-      public function getRoleName(): string
-      {
-          return $this->level->level_nama;
-      }
+      public function getRole()
+     {
+         return $this->level->level_kode;
+     }
   
       /**
        * Cek apakah user memiliki role tertentu
