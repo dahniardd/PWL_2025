@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
             // Import Level with Excel
             Route::get('import', [LevelController::class, 'import']); // ajax form upload excel
             Route::post('import_ajax', [LevelController::class, 'import_ajax']); // ajax import excel
+            Route::get('export_excel', [LevelController::class, 'export_excel']); //export excel
         });
     });
 
