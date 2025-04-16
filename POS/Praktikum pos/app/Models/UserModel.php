@@ -41,6 +41,11 @@ class UserModel extends Authenticatable
       {
           return $this->level->level_kode == $role;
       }
-  
-  
-  }
+
+      public function getProfilePictureUrlAttribute()
+     {
+         return $this->profile_picture 
+             ? asset('storage/profile_pictures/'.$this->profile_picture)
+             : asset('images/default-profile.png');
+     }
+ }
