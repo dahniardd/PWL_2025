@@ -33,8 +33,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{{ url('/') }}" class="brand-link">
-        <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img">
-        <span class="brand-text font-weight-light">PWL - Starter Code</span>
+        <img src="{{ asset('adminlte/dist/img/adminlte.png') }}" alt="AdminLTE Logo" class="brand-image img">
+        <span class="brand-text font-weight-light">PWL - StudiCase</span>
         </a>
 
 <!-- Sidebar -->
