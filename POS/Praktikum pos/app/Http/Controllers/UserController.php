@@ -132,6 +132,14 @@ class UserController extends Controller
             'activeMenu' => $activeMenu
         ]);
     }
+
+    //Show AJAX
+    public function show_ajax(string $id)
+    {
+        $user = UserModel::find($id);
+        return view('user.show_ajax', ['user' => $user]);
+    }
+
     // Menampilkan halaman form edit user
     public function edit(string $id)
     {
