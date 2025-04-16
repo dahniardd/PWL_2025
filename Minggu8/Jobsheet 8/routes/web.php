@@ -25,6 +25,9 @@ Route::post('/register', [AuthController::class, 'postRegister']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index']);
 
+    Route::get('/profile', [UserController::class, 'profile']);
+    Route::post('/profile/update-photo', [UserController::class, 'updatePhoto'])->name('user.updatePhoto');
+
     Route::middleware(['authorize:ADM'])->group(function(){
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', [UserController::class, 'index']); // menampilkan halaman awal user
