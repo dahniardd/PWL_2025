@@ -42,8 +42,8 @@ class KategoriController extends Controller
             // menambahkan kolom index
             ->addIndexColumn()
             ->addColumn('aksi', function ($kategori) {
-                /*$btn = '<a href="' . url('/kategori/' . $kategori->kategori_id) . '" class="btn btn-info btn-sm">Detail</a> ';
-                $btn .= '<a href="' . url('/kategori/' . $kategori->kategori_id . '/edit') . '" class="btn btn-success btn-sm">Edit</a> ';
+                $btn = '<a href="' . url('/kategori/' . $kategori->kategori_id) . '" class="btn btn-info btn-sm">Detail</a> ';
+                /*$btn .= '<a href="' . url('/kategori/' . $kategori->kategori_id . '/edit') . '" class="btn btn-success btn-sm">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' . url('/kategori/' . $kategori->kategori_id) . '">' . csrf_field() . method_field('DELETE') . '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';*/
                 $btn = '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->kategori_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->kategori_id . '/edit_ajax') . '\')" class="btn btn-success btn-sm">Edit</button> ';
@@ -54,15 +54,17 @@ class KategoriController extends Controller
             ->make(true);
     }
     // menampilkan halaman form tambah kategori
+    // Create ajax
     public function create_ajax()
     {
         return view('kategori.create_ajax');
     }
+
     // menyimpan data kategori baru
     public function store(Request $request)
     {
         $request->validate([
-            'kategori_kode' => 'required|string|max:10',
+            'kategori_kode' => 'required|string|max:5',
             'kategori_nama' => 'required|string|max:100',
         ]);
 
@@ -73,12 +75,13 @@ class KategoriController extends Controller
 
         return redirect('/kategori')->with('success', 'Data kategori berhasil ditambahkan');
     }
+
     // Store ajax
     public function store_ajax(Request $request)
     {
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'kategori_kode' => 'required|string|max:10',
+                'kategori_kode' => 'required|string|max:5',
                 'kategori_nama' => 'required|string|max:100',
             ];
 
