@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
     Data’s fresh, sistem on fire, tinggal kamu yang action.  
-    Mau input, update, atau ngatur strategi — <br> Semesta dashboard siap nemenin kamu!
+    Mau input, update, atau ngatur strategi — <br> Semesta dashboard siap nemenin kamu!🚀
     </div>
 </div>
 @endsection
