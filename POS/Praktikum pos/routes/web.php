@@ -203,7 +203,9 @@ Route::middleware(['auth'])->group(function () {
         Route::group(['prefix' => 'stok'], function () {
             Route::get('/', [StokController::class, 'index']);
             Route::post('/list', [StokController::class, 'list']); // menampilkan data stok dalam bentuk json untuk datatables
-            Route::get('/{id}', [StokController::class, 'show']); // Menampilkan detail barang
+            //Show Menggunakan AJAX
+            Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']); // Menampilkan detail stok Ajax
+            Route::get('/{id}', [StokController::class, 'show_ajax']); // Menampilkan detail barang
              // Create menggunakan AJAX
             Route::get('/create_ajax', [StokController::class, 'create_ajax']); // menampilkan halaman form tambah Stok ajax
             Route::post('/ajax', [StokController::class, 'store_ajax']); // menyimpan data Stok baru ajax
