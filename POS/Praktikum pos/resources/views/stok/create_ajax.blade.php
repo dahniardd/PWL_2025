@@ -39,11 +39,7 @@
                      <input type="number" name="stok_jumlah" id="stok_jumlah" class="form-control" required>
                      <small id="error-stok_jumlah" class="error-text form-text text-danger"></small>
                  </div>
-                 <div class="form-group">
-                     <label>Tanggal Stok</label>
-                     <input type="date" name="stok_tanggal" id="stok_tanggal" class="form-control" required>
-                     <small id="error-stok_tanggal" class="error-text form-text text-danger"></small>
-                 </div>
+    
              </div>
              <div class="modal-footer">
                  <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>

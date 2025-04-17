@@ -88,6 +88,7 @@
                     orderable: false,
                     searchable: false
                 },
+
                 {
                     data: "barang_kode",
                     className: "",

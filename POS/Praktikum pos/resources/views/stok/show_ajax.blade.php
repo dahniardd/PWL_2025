@@ -40,10 +40,6 @@
                     <td>{{ $stok->stok_jumlah }}</td>
                 </tr>
                 <tr>
-                    <th>Tanggal Stok</th>
-                    <td>{{ $stok->stok_tanggal }}</td>
-                </tr>
-                <tr>
                     <th>Petugas</th>
                     <td>{{ $stok->user->nama ?? '-' }}</td>
                 </tr>

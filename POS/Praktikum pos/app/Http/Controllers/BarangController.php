@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
+
 class BarangController extends Controller
 {
     //Menampilkan halaman utama barang
@@ -47,12 +48,11 @@ class BarangController extends Controller
         return DataTables::of($barang)
             ->addIndexColumn()
             ->addColumn('aksi', function ($barang) { // menambahkan kolom aksi
-                $btn = '<a href="'.url('/barang/' . $barang->barang_id).'" class="btn btn-info btn-sm">Detail</a> ';
+                //$btn = '<a href="'.url('/barang/' . $barang->barang_id).'" class="btn btn-info btn-sm">Detail</a> ';
                 // $btn .= '<a href="'.url('/barang/' . $barang->barang_id . '/edit').'"class="btn btn-warning btn-sm">Edit</a> ';
                 // $btn .= '<form class="d-inline-block" method="POST" action="'. url('/barang/'.$barang->barang_id).'">'
                 //     . csrf_field() . method_field('DELETE') .
                 //     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Kita yakit menghapus data ini?\');">Hapus</button></form>';
-                //$btn = '<button onclick="modalAction(\''.url('/barang/' . $barang->barang_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn = '<button onclick="modalAction(\''.url('/barang/' . $barang->barang_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\''.url('/barang/' . $barang->barang_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
                 $btn .= '<button onclick="modalAction(\''.url('/barang/' . $barang->barang_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
@@ -107,40 +107,40 @@ class BarangController extends Controller
     public function edit_ajax($id){
         $barang = BarangModel::find($id);
         $level = LevelModel::select('level_id', 'level_nama')->get();
-        return view('barang.edit_ajax', ['barang' => $barang, 'level' => $level]);
+        $kategori = KategoriModel::select('kategori_id', 'kategori_nama')->get();
+        return view('barang.edit_ajax', ['barang' => $barang, 'level' => $level, 'kategori' => $kategori]);
     }
 
     //Menampilkan detail
-     public function show(string $id)
-     {
-         $barang = BarangModel::with('kategori')->find($id);
- 
-         $breadcrumb = (object) [
-             'title' => 'Detail Barang',
-             'list'  => ['Home', 'Barang', 'Detail']
-         ];
- 
-         $page = (object) [
-             'title' => 'Detail barang'
-         ];
- 
-         $activeMenu = 'barang'; // set menu yang sedang aktif
- 
-         return view('barang.show', [
-             'breadcrumb'    => $breadcrumb,
-             'page'          => $page,
-             'barang'        => $barang,
-             'activeMenu'    => $activeMenu
-         ]);
-     }
-     
-     //Show AJAX
-     public function show_ajax(string $id)
-     {
-         $barang = BarangModel::find($id);
-         return view('Barang.show_ajax', ['barang' => $barang]);
-     }
+    public function show(string $id)
+    {
+        $barang = BarangModel::with('kategori')->find($id);
 
+        $breadcrumb = (object) [
+            'title' => 'Detail Barang',
+            'list'  => ['Home', 'Barang', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail barang'
+        ];
+
+        $activeMenu = 'barang'; // set menu yang sedang aktif
+
+        return view('barang.show', [
+            'breadcrumb'    => $breadcrumb,
+            'page'          => $page,
+            'barang'        => $barang,
+            'activeMenu'    => $activeMenu
+        ]);
+    }
+
+    //Show AJAX
+    public function show_ajax(string $id)
+    {
+        $barang = BarangModel::find($id);
+        return view('Barang.show_ajax', ['barang' => $barang]);
+    }
 
     // Menyimpan perubahan data barang dgn ajax
     public function update_ajax(Request $request, string $id)
@@ -275,81 +275,82 @@ class BarangController extends Controller
     }
 
     public function export_excel()
-     {
-         // Ambil data barang yang akan diekspor
-         $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
-             ->orderBy('kategori_id')
-             ->with('kategori')
-             ->get();
- 
-         // Load library PhpSpreadsheet
-         $spreadsheet = new Spreadsheet();
-         $sheet = $spreadsheet->getActiveSheet();
- 
-         // Set header kolom
-         $sheet->setCellValue('A1', 'No');
-         $sheet->setCellValue('B1', 'Kode Barang');
-         $sheet->setCellValue('C1', 'Nama Barang');
-         $sheet->setCellValue('D1', 'Harga Beli');
-         $sheet->setCellValue('E1', 'Harga Jual');
-         $sheet->setCellValue('F1', 'Kategori');
- 
-         // Format header bold
-         $sheet->getStyle('A1:F1')->getFont()->setBold(true);
- 
-         // Isi data barang
-         $no = 1;
-         $baris = 2;
-         foreach ($barang as $value) {
-             $sheet->setCellValue('A' . $baris, $no);
-             $sheet->setCellValue('B' . $baris, $value->barang_kode);
-             $sheet->setCellValue('C' . $baris, $value->barang_nama);
-             $sheet->setCellValue('D' . $baris, $value->harga_beli);
-             $sheet->setCellValue('E' . $baris, $value->harga_jual);
-             $sheet->setCellValue('F' . $baris, $value->kategori->kategori_nama);
-             $baris++;
-             $no++;
-         }
- 
-         // Set auto size untuk kolom
-         foreach (range('A', 'F') as $columnID) {
-             $sheet->getColumnDimension($columnID)->setAutoSize(true);
-         }
- 
-         // Set title sheet
-         $sheet->setTitle('Data Barang');
-         
-         // Generate filename
-         $filename = 'Data_Barang_' . date('Y-m-d_H-i-s') . '.xlsx';
- 
-         // Set header untuk download file
-         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-         header('Content-Disposition: attachment;filename="' . $filename . '"');
-         header('Cache-Control: max-age=0');
-         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-         header('Cache-Control: cache, must-revalidate');
-         header('Pragma: public');
- 
-         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-         $writer->save('php://output');
-         exit;
-     }
+    {
+        // Ambil data barang yang akan diekspor
+        $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+            ->orderBy('kategori_id')
+            ->with('kategori')
+            ->get();
 
-     public function export_pdf()
-         {
-             $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
-                 ->orderBy('kategori_id')
-                 ->orderBy('barang_kode')
-                 ->with('kategori')
-                 ->get();
- 
-             // use Barryvdh\DomPDF\Facade\Pdf;
-             $pdf = Pdf::loadView('barang.export_pdf', ['barang' => $barang]);
-             $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
-             $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
-             $pdf->render();
- 
-             return $pdf->stream('Data Barang ' . date('Y-m-d H:i:s') . '.pdf');
-         }
+        // Load library PhpSpreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set header kolom
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Kode Barang');
+        $sheet->setCellValue('C1', 'Nama Barang');
+        $sheet->setCellValue('D1', 'Harga Beli');
+        $sheet->setCellValue('E1', 'Harga Jual');
+        $sheet->setCellValue('F1', 'Kategori');
+
+        // Format header bold
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true);
+
+        // Isi data barang
+        $no = 1;
+        $baris = 2;
+        foreach ($barang as $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->barang_kode);
+            $sheet->setCellValue('C' . $baris, $value->barang_nama);
+            $sheet->setCellValue('D' . $baris, $value->harga_beli);
+            $sheet->setCellValue('E' . $baris, $value->harga_jual);
+            $sheet->setCellValue('F' . $baris, $value->kategori->kategori_nama);
+            $baris++;
+            $no++;
+        }
+
+        // Set auto size untuk kolom
+        foreach (range('A', 'F') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        // Set title sheet
+        $sheet->setTitle('Data Barang');
+        
+        // Generate filename
+        $filename = 'Data_Barang_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+        // Set header untuk download file
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+    public function export_pdf()
+        {
+            $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+                ->orderBy('kategori_id')
+                ->orderBy('barang_kode')
+                ->with('kategori')
+                ->get();
+
+            // use Barryvdh\DomPDF\Facade\Pdf;
+            $pdf = Pdf::loadView('barang.export_pdf', ['barang' => $barang]);
+            $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+            $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+            $pdf->render();
+
+            return $pdf->stream('Data Barang ' . date('Y-m-d H:i:s') . '.pdf');
+        }
+
 }

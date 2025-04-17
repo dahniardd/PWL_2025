@@ -24,6 +24,7 @@
              <thead>
                  <tr>
                      <th>No</th>
+                     <th>Kategori ID</th>
                      <th>Kode Barang</th>
                      <th>Nama Barang</th>
                      <th>Stok</th>
@@ -62,11 +63,12 @@
              },
              columns: [
                  { data: 'DT_RowIndex', className: 'text-center', width: '5%', orderable: false, searchable: false },
-                 { data: 'barang_kode', width: '15%' },
+                 { data: 'kategori_id', name: 'kategori_id', className: 'text-center', width: '5%'},
+                 { data: 'barang_kode', width: '10%' },
                  { data: 'barang_nama', width: '15%' },
-                 { data: 'stok_jumlah', className: 'text-center', width: '10%' },
-                 { data: 'stok_tanggal', className: 'text-center', width: '20%' },
-                 { data: 'user_nama', width: '20%' },
+                 { data: 'stok_jumlah', className: 'text-center', width: '5%' },
+                 { data: 'stok_tanggal', className: 'text-center', width: '15%' },
+                 { data: 'user_nama', width: '10%' },
                  { data: 'aksi', className: 'text-center', width: '15%', orderable: false, searchable: false }
              ]
          });

@@ -51,6 +51,9 @@ class StokController extends Controller
 
         return DataTables::of($stok)
             ->addIndexColumn()
+            ->addColumn('kategori_id', function ($s) {
+                return $s->barang->kategori_id ?? '-';
+            })
             ->addColumn('barang_kode', function ($s) {
                 return $s->barang->barang_kode ?? '-';
             })

@@ -26,7 +26,7 @@ Route::post('/register', [AuthController::class, 'postRegister']);
 // Semua rute di bawah ini hanya bisa diakses jika sudah login
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', [WelcomeController::class, 'index']);
+    Route::get('/', [WelcomeController::class, 'index']); // index setelah login 
 
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/profile/update-photo', [UserController::class, 'updatePhoto'])->name('user.updatePhoto');
