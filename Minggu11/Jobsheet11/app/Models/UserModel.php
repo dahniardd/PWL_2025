@@ -27,6 +27,10 @@ class UserModel extends Authenticatable implements JWTSubject
         'image' // tambahan
     ];
 
+    public function getRole()
+{
+    return $this->level_kode;
+}
     public function level()
     {
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
